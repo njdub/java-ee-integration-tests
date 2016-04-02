@@ -1,7 +1,19 @@
+plugins {
+    id "org.flywaydb.flyway" version "4.0"
+}
+
 group 'java-tk'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+
+flyway {
+    url = 'jdbc:mysql://localhost:3306/film-studio'
+    user = 'root'
+    password = 'root'
+    schemas = ['film-studio']
+}
+
 
 sourceCompatibility = 1.8
 

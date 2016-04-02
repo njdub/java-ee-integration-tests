@@ -1,0 +1,1 @@
+INSERT INTO directors (id, first_name, last_name, birth_date) VALUES (1, 'Nazar', 'Dub', '1994-02-25')
