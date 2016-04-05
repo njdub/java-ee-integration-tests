@@ -1,0 +1,2 @@
+INSERT INTO directors (id, first_name, last_name, birth_date) VALUES (1, '2', 'Pac', '1985-02-25');
+INSERT INTO directors (id, first_name, last_name, birth_date) VALUES (2, '50', 'Cent', '1983-08-13');
