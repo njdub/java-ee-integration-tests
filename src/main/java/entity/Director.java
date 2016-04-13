@@ -48,4 +48,8 @@ public class Director {
     public void setFilms(List<Film> films) {
         this.films = films;
     }
+
+    public long getId() {
+        return id;
+    }
 }

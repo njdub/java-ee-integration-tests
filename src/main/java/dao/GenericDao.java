@@ -10,9 +10,9 @@ import entity.Director;
 public interface GenericDao<T> {
     public T find(long id);
 
-    public T create(T entity);
+    public T create(T entity) throws StorageException;
 
     public T update(long id, T entity);
 
-    public void delete(long id);
+    public void delete(long id) throws StorageException;
 }

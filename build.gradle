@@ -1,3 +1,12 @@
+buildscript{
+    repositories{
+        jcenter()
+    }
+    dependencies{
+        classpath 'org.jboss.arquillian.gradle:arquillian-gradle-plugin:0.1'
+    }
+}
+
 plugins {
     id "org.flywaydb.flyway" version "4.0"
 }
@@ -6,12 +15,14 @@ group 'java-tk'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'arquillian'
 
 flyway {
     url = 'jdbc:mysql://localhost:3306/'
     user = 'root'
     password = 'root'
-    schemas = ['film-studio']
+    schemas = ['film_studio']
     locations = ['filesystem:src/main/resources/db/migration',
                  'filesystem:src/main/resources/db/data']
 }
@@ -23,13 +34,26 @@ repositories {
 }
 
 dependencies {
-//    compile 'javax:javaee-api:7.0'
+    providedCompile 'javax:javaee-api:7.0'
 
     compile 'org.slf4j:slf4j-api:1.7.20'
     compile 'org.slf4j:slf4j-nop:1.7.20'
 
+    compile 'mysql:mysql-connector-java:5.1.38'
+
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
+
+//    testCompile 'org.wildfly.arquillian:wildfly-arquillian-container-managed:1.0.2.Final'
+//    testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.2.2'
+//    testCompile 'org.wildfly:wildfly-arquillian-container-managed:8.2.1.Final'
+//    testCompile 'org.wildfly.arquillian:wildfly-arquillian-container-managed:2.0.0.Alpha1'
+
+    testCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha6'
+    testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.2'
+
     testCompile 'org.dbunit:dbunit:2.5.1'
     testCompile 'junit:junit:4.11'
+
 }
 
 task prepareTestDb << {
@@ -39,7 +63,7 @@ task prepareTestDb << {
         url = 'jdbc:mysql://localhost:3306/'
         user = 'root'
         password = 'root'
-        schemas = ['film-studio-test']
+        schemas = ['film_studio_test']
         locations = ['filesystem:src/main/resources/db/migration']
     }
     println flyway.schemas.toString()
