@@ -36,13 +36,15 @@ import java.time.LocalDate;
 @RunWith(Arquillian.class)
 public class MySQLDirectorDaoIT {
 
-    IDatabaseTester tester;
+    private IDatabaseTester tester;
+
+    private IDatabaseConnection connection;
 
     @EJB(beanName = "MySQLDirectorDao")
-    DirectorDao directorDao;
+    private DirectorDao directorDao;
 
     @EJB(lookup = "java:/MysqlNoXA/filmStudioTest")
-    DataSource dataSource;
+    private DataSource dataSource;
 
     @Deployment
     public static Archive<WebArchive> createDeployment() throws Exception {
@@ -77,8 +79,8 @@ public class MySQLDirectorDaoIT {
 
     @Before
     public void setUp() throws Exception {
-        IDatabaseConnection databaseConnection = new MySqlConnection(dataSource.getConnection(), "film_studio_test");
-        tester = new DefaultDatabaseTester(databaseConnection);
+        connection = new MySqlConnection(dataSource.getConnection(), "film_studio_test");
+        tester = new DefaultDatabaseTester(connection);
         IDataSet emptyData = getDataSetByPath("data/director/director-empty.xml");
         tester.setDataSet(emptyData);
         tester.setSetUpOperation(DatabaseOperation.NONE);
@@ -109,7 +111,7 @@ public class MySQLDirectorDaoIT {
         directorDao.create(director);
 
         IDataSet expectedData = getDataSetByPath("data/director/director-single.xml");
-        IDataSet actualData = tester.getConnection().createDataSet();
+        IDataSet actualData = connection.createDataSet();
 
         String[] ignore = {"id"};
         Assertion.assertEqualsIgnoreCols(expectedData, actualData, "directors", ignore);
@@ -117,12 +119,12 @@ public class MySQLDirectorDaoIT {
 
     @Test
     public void testDelete() throws Exception {
-        DatabaseOperation.INSERT.execute(tester.getConnection(), getDataSetByPath("data/director/director-single.xml"));
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-single.xml"));
 
         directorDao.delete(15);
 
         IDataSet expectedData = getDataSetByPath("data/director/director-empty.xml");
-        IDataSet actualData = tester.getConnection().createDataSet();
+        IDataSet actualData = connection.createDataSet();
 
         Assertion.assertEqualsIgnoreCols(expectedData, actualData, "directors", new String[]{});
     }
