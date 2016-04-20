@@ -23,14 +23,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 import javax.ejb.EJB;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.File;
-import java.sql.*;
 import java.time.LocalDate;
 
 /**
@@ -53,19 +48,12 @@ public class MySQLDirectorDaoIT {
 
     @Deployment
     public static Archive<WebArchive> createDeployment() throws Exception {
-        File[] dbunit = Maven.resolver().resolve("org.dbunit:dbunit:2.5.1").withTransitivity().asFile();
-
-        WebArchive war = ShrinkWrap
+        return ShrinkWrap
                 .create(EmbeddedGradleImporter.class)
                 .forThisProjectDirectory().forTasks("arquillianBuild")
                 .importBuildOutput()
-                .as(WebArchive.class)
-//                .deleteClass(DatabaseConf.class)
-                .addAsLibraries(dbunit);
-        System.out.println(war.toString(true));
-        return war;
+                .as(WebArchive.class);
     }
-
 
     @Before
     public void setUp() throws Exception {
