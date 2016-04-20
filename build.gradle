@@ -1,8 +1,8 @@
-buildscript{
-    repositories{
+buildscript {
+    repositories {
         jcenter()
     }
-    dependencies{
+    dependencies {
         classpath 'org.jboss.arquillian.gradle:arquillian-gradle-plugin:0.1'
     }
 }
@@ -14,9 +14,52 @@ plugins {
 group 'java-tk'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'arquillian'
+
+sourceCompatibility = 1.8
+
+Properties loadProperties(String path) {
+    def properties = new Properties()
+    def inputStream = new FileInputStream(path)
+    properties.load(inputStream)
+    inputStream.close()
+    properties
+}
+
+def testDatabaseProperties = loadProperties "configurataion/test-database.properties"
+def devDatabaseProperties = loadProperties "configurataion/dev-database.properties"
+def currentProperties = devDatabaseProperties;
+
+configurations {
+    itestCompile.extendsFrom compile
+}
+
+sourceSets {
+    itest {
+        java {
+            srcDir file('src/itest/java')
+        }
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+        resources.srcDir file('src/itest/resources')
+    }
+    main {
+        java {
+            srcDir "$buildDir/generated-src"
+        }
+    }
+}
+
+task copyItestLibs(type: Copy) {
+    into "lib"
+    from configurations.itestCompile - configurations.compile
+}
+
+task deleteLibFolder(type: Delete) {
+    delete 'lib'
+}
 
 flyway {
     url = 'jdbc:mysql://localhost:3306/'
@@ -27,8 +70,6 @@ flyway {
                  'filesystem:src/main/resources/db/data']
 }
 
-sourceCompatibility = 1.8
-
 repositories {
     jcenter();
 }
@@ -38,27 +79,32 @@ dependencies {
 
     compile 'org.slf4j:slf4j-api:1.7.20'
     compile 'org.slf4j:slf4j-nop:1.7.20'
-
     compile 'mysql:mysql-connector-java:5.1.38'
 
-    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
+    itestCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
+    itestCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha6'
+    itestCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.2'
+    itestCompile 'org.dbunit:dbunit:2.5.1'
 
-//    testCompile 'org.wildfly.arquillian:wildfly-arquillian-container-managed:1.0.2.Final'
-//    testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.2.2'
-//    testCompile 'org.wildfly:wildfly-arquillian-container-managed:8.2.1.Final'
-//    testCompile 'org.wildfly.arquillian:wildfly-arquillian-container-managed:2.0.0.Alpha1'
-
-    testCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha6'
-    testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.2'
-
-    testCompile 'org.dbunit:dbunit:2.5.1'
     testCompile 'junit:junit:4.11'
-
 }
 
-task prepareTestDb << {
-    println 'Start prepare test schema'
-    println flyway.schemas.toString()
+task arquillianBuild << {
+}
+
+task configureArquillianWar << {
+    war {
+        from('src/itest/resources') {
+            into 'WEB-INF/classes'
+        }
+    }
+}
+
+arquillianBuild.dependsOn configureArquillianWar
+arquillianBuild.dependsOn build
+build.mustRunAfter configureArquillianWar
+
+task prepareITestDatabase << {
     flyway {
         url = 'jdbc:mysql://localhost:3306/'
         user = 'root'
@@ -66,16 +112,61 @@ task prepareTestDb << {
         schemas = ['film_studio_test']
         locations = ['filesystem:src/main/resources/db/migration']
     }
-    println flyway.schemas.toString()
 }
 
-test.dependsOn prepareTestDb
-test.dependsOn flywayClean
-test.dependsOn flywayMigrate
-test.dependsOn flywayValidate
 
-flywayClean.mustRunAfter prepareTestDb
+
+task itest(type: Test) {
+    testClassesDir = sourceSets.itest.output.classesDir
+    classpath = sourceSets.itest.runtimeClasspath
+    outputs.upToDateWhen { false }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.itest.setGroup('Verification')
+
+itest.dependsOn prepareITestDatabase
+itest.dependsOn flywayClean
+itest.dependsOn flywayMigrate
+itest.dependsOn flywayValidate
+
+flywayClean.mustRunAfter prepareITestDatabase
 flywayMigrate.mustRunAfter flywayClean
 flywayValidate.mustRunAfter flywayMigrate
 
 //TODO: delete schema after test
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+
+def outputDir = file("$buildDir/generated-src")
+
+task generateDatasourceSources(type: Copy) {
+    from 'configurataion/template'
+    into outputDir
+    doFirst{
+        expand(currentProperties)
+    }
+}
+
+task prepareGeneratedSourceDirectory << {
+    outputDir.deleteDir()
+    outputDir.mkdirs()
+}
+
+task setTestDatasource << {
+    currentProperties = testDatabaseProperties;
+}
+
+
+itest.dependsOn setTestDatasource
+arquillianBuild.dependsOn setTestDatasource
+
+compileJava.mustRunAfter setTestDatasource
+configureArquillianWar.mustRunAfter setTestDatasource
+
+generateDatasourceSources.dependsOn prepareGeneratedSourceDirectory
+compileJava.dependsOn generateDatasourceSources

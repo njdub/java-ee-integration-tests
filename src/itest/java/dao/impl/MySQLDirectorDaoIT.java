@@ -23,9 +23,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
 import javax.ejb.EJB;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.File;
+import java.sql.*;
 import java.time.LocalDate;
 
 /**
@@ -52,28 +57,13 @@ public class MySQLDirectorDaoIT {
 
         WebArchive war = ShrinkWrap
                 .create(EmbeddedGradleImporter.class)
-                .forThisProjectDirectory()
+                .forThisProjectDirectory().forTasks("arquillianBuild")
                 .importBuildOutput()
                 .as(WebArchive.class)
 //                .deleteClass(DatabaseConf.class)
                 .addAsLibraries(dbunit);
-        File dir = new File("src/test/resources");
-        addFiles(war, dir);
-//        System.out.println(war.toString(true));
+        System.out.println(war.toString(true));
         return war;
-    }
-
-    private static void addFiles(WebArchive war, File dir) throws Exception {
-        if (!dir.isDirectory()) {
-            throw new Exception("Not a directory");
-        }
-        for (File f : dir.listFiles()) {
-            if (f.isFile()) {
-                war.addAsWebResource(f, "WEB-INF/classes" + f.getPath().replace("\\", "/").substring("src/test/resources".length()));
-            } else {
-                addFiles(war, f);
-            }
-        }
     }
 
 

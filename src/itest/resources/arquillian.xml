@@ -4,6 +4,7 @@
         http://jboss.org/schema/arquillian
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
+    <!--https://github.com/arquillian/arquillian-container-chameleon-->
     <container qualifier="chameleon" default="true">
         <configuration>
             <property name="jbossHome">D:/dev/wildfly-8.2.0.Final</property>
