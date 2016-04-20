@@ -97,7 +97,7 @@ task configureArquillianWar << {
         from('src/itest/resources') {
             into 'WEB-INF/classes'
         }
-        classpath configurations.itestCompile - configurations.compile
+        classpath configurations.itestCompile - configurations.compile + sourceSets.itest.runtimeClasspath
     }
 }
 
