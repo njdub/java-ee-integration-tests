@@ -15,12 +15,16 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.gradle.archive.importer.embedded.EmbeddedGradleImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static utils.DbUnitUtils.getDataSetByPath;
 
@@ -93,4 +97,62 @@ public class MySQLDirectorDaoIT {
         Assertion.assertEqualsIgnoreCols(expectedData, actualData, "directors", new String[]{});
     }
 
+    @Test
+    public void testFind() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-few.xml"));
+
+        Director expectedDirector = new Director(16);
+        expectedDirector.setFirstName("Oleg");
+        expectedDirector.setLastName("Petrov");
+        expectedDirector.setBirthDate(LocalDate.of(1985, 2, 16));
+        expectedDirector.setFilms(Collections.emptyList());
+
+        Director actualDirector = directorDao.find(16);
+
+        Assert.assertEquals(expectedDirector, actualDirector);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-few.xml"));
+
+        Director newDirector = new Director(16);
+        newDirector.setFirstName("Oleg");
+        newDirector.setLastName("Olegovich");
+        newDirector.setBirthDate(LocalDate.of(1985, 2, 16));
+        newDirector.setFilms(Collections.emptyList());
+
+        Director actualDirector = directorDao.update(16, newDirector);
+
+        Assert.assertEquals(newDirector, actualDirector);
+
+        IDataSet expectedData = getDataSetByPath("data/director/director-few-updated.xml");
+        IDataSet actualData = connection.createDataSet();
+
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "directors", new String[]{});
+    }
+
+    @Test
+    public void testFindByLastName() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-few.xml"));
+
+        Director expectedDirector1 = new Director(16);
+        expectedDirector1.setFirstName("Oleg");
+        expectedDirector1.setLastName("Petrov");
+        expectedDirector1.setBirthDate(LocalDate.of(1985, 2, 16));
+        expectedDirector1.setFilms(Collections.emptyList());
+
+        Director expectedDirector2 = new Director(20);
+        expectedDirector2.setFirstName("Maxim");
+        expectedDirector2.setLastName("Petrov");
+        expectedDirector2.setBirthDate(LocalDate.of(1985, 2, 25));
+        expectedDirector2.setFilms(Collections.emptyList());
+
+        List<Director> expectedDirectorList = Arrays.asList(expectedDirector1, expectedDirector2);
+
+        List<Director> actualDirectorList = directorDao.findBy("Petrov");
+
+        Assert.assertArrayEquals(expectedDirectorList.toArray(), actualDirectorList.toArray());
+
+    }
 }

@@ -7,11 +7,11 @@ import entity.Director;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created on 08-Apr-16.
@@ -25,13 +25,47 @@ public class MySQLDirectorDao implements DirectorDao {
     private DataSource dataSource;
 
     @Override
-    public List<Director> findBy(String lastName) {
-        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    public List<Director> findBy(String lastName) throws StorageException {
+        Objects.requireNonNull(lastName);
+        try (Connection connection = dataSource.getConnection()) {
+            List<Director> result = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id,first_name,last_name,birth_date FROM directors WHERE last_name = (?)");
+            statement.setString(1, lastName);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Director director = new Director(rs.getLong("id"));
+                director.setFirstName(rs.getString("first_name"));
+                director.setLastName(rs.getString("last_name"));
+                director.setBirthDate(rs.getDate("birth_date").toLocalDate());
+                director.setFilms(Collections.emptyList());
+                result.add(director);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
-    public Director find(long id) {
-        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    public Director find(long id) throws StorageException {
+        try (Connection connection = dataSource.getConnection()) {
+            Director director = null;
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id,first_name,last_name,birth_date FROM directors WHERE id = (?)");
+            statement.setLong(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                director = new Director(rs.getLong("id"));
+                director.setFirstName(rs.getString("first_name"));
+                director.setLastName(rs.getString("last_name"));
+                director.setBirthDate(rs.getDate("birth_date").toLocalDate());
+                director.setFilms(Collections.emptyList());
+            }
+            return director;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
@@ -39,10 +73,10 @@ public class MySQLDirectorDao implements DirectorDao {
         try (Connection connection = dataSource.getConnection()) {
             Date birth = Date.valueOf(entity.getBirthDate());
             PreparedStatement statement = connection.prepareStatement("INSERT INTO directors VALUES (?,?,?,?)");
-            statement.setLong(1,entity.getId());
-            statement.setString(2,entity.getLastName());
-            statement.setString(3,entity.getFirstName());
-            statement.setDate(4,birth);
+            statement.setLong(1, entity.getId());
+            statement.setString(2, entity.getLastName());
+            statement.setString(3, entity.getFirstName());
+            statement.setDate(4, birth);
             statement.execute();
             return entity;
         } catch (SQLException e) {
@@ -51,15 +85,27 @@ public class MySQLDirectorDao implements DirectorDao {
     }
 
     @Override
-    public Director update(long id, Director entity) {
-        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    public Director update(long id, Director entity) throws StorageException {
+        try (Connection connection = dataSource.getConnection()) {
+            Date birth = Date.valueOf(entity.getBirthDate());
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE directors SET last_name = (?), first_name = (?), birth_date = (?) WHERE id = (?)");
+            statement.setLong(4, id);
+            statement.setString(1, entity.getLastName());
+            statement.setString(2, entity.getFirstName());
+            statement.setDate(3, birth);
+            statement.execute();
+            return entity;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public void delete(long id) throws StorageException {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM directors WHERE id = ?");
-            statement.setLong(1,id);
+            statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
             throw new StorageException(e);

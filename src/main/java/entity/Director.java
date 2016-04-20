@@ -17,6 +17,13 @@ public class Director {
     private List<Film> films;
 
 
+    public Director() {
+    }
+
+    public Director(long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -51,5 +58,30 @@ public class Director {
 
     public long getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Director director = (Director) o;
+
+        if (id != director.id) return false;
+        if (firstName != null ? !firstName.equals(director.firstName) : director.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(director.lastName) : director.lastName != null) return false;
+        if (birthDate != null ? !birthDate.equals(director.birthDate) : director.birthDate != null) return false;
+        return films != null ? films.equals(director.films) : director.films == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
+        result = 31 * result + (films != null ? films.hashCode() : 0);
+        return result;
     }
 }

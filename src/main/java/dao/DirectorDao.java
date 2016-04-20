@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface DirectorDao extends GenericDao<Director> {
 
-    public List<Director> findBy(String lastName);
+    public List<Director> findBy(String lastName) throws StorageException;
 }
