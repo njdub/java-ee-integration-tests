@@ -2,6 +2,7 @@ package entity;
 
 import java.time.Duration;
 import java.time.Year;
+import java.util.IllegalFormatCodePointException;
 
 /**
  * Created on 25-Mar-16.
@@ -16,6 +17,13 @@ public class Film {
     private Year year;
     private String description;
     private Director director;
+
+    public Film() {
+    }
+
+    public Film(long id) {
+        this.id = id;
+    }
 
     public long getId() {
         return id;
@@ -63,5 +71,43 @@ public class Film {
 
     public void setDirector(Director director) {
         this.director = director;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Film film = (Film) o;
+        if (id != film.id) return false;
+        if (title != null ? !title.equals(film.title) : film.title != null) return false;
+        if (duration != null ? !duration.equals(film.duration) : film.duration != null) return false;
+        if (year != null ? !year.equals(film.year) : film.year != null) return false;
+        if (description != null ? !description.equals(film.description) : film.description != null) return false;
+        return director != null ? director.equals(film.director) : film.director == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (director != null ? director.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", duration=" + duration +
+                ", year=" + year +
+                ", description='" + description + '\'' +
+                ", director=" + director +
+                '}';
     }
 }

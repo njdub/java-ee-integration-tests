@@ -7,5 +7,5 @@ CREATE TABLE films (
   director_id INT          NOT NULL,
 
   PRIMARY KEY (id),
-  FOREIGN KEY (director_id) REFERENCES directors (id)
+  FOREIGN KEY (director_id) REFERENCES directors (id) ON DELETE CASCADE
 );

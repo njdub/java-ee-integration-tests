@@ -54,9 +54,9 @@ public class MySQLDirectorDaoIT {
 
     @Before
     public void setUp() throws Exception {
-        tester = new JndiDatabaseTester("java:/MysqlNoXA/filmStudioTest");
+        tester = new JndiDatabaseTester("java:global/jdbc/MySql/filmStudio");
         connection = tester.getConnection();
-        IDataSet emptyData = getDataSetByPath("data/director/director-empty.xml");
+        IDataSet emptyData = getDataSetByPath("data/empty.xml");
         tester.setDataSet(emptyData);
         tester.setSetUpOperation(DatabaseOperation.NONE);
         tester.onSetup();
@@ -78,7 +78,7 @@ public class MySQLDirectorDaoIT {
 
         directorDao.create(director);
 
-        IDataSet expectedData = getDataSetByPath("data/director/director-single.xml");
+        IDataSet expectedData = getDataSetByPath("data/group.xml");
         IDataSet actualData = connection.createDataSet();
 
         String[] ignore = {"id"};
@@ -87,11 +87,11 @@ public class MySQLDirectorDaoIT {
 
     @Test
     public void testDelete() throws Exception {
-        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-single.xml"));
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
 
         directorDao.delete(15);
 
-        IDataSet expectedData = getDataSetByPath("data/director/director-empty.xml");
+        IDataSet expectedData = getDataSetByPath("data/empty.xml");
         IDataSet actualData = connection.createDataSet();
 
         Assertion.assertEqualsIgnoreCols(expectedData, actualData, "directors", new String[]{});
@@ -105,7 +105,7 @@ public class MySQLDirectorDaoIT {
         expectedDirector.setFirstName("Oleg");
         expectedDirector.setLastName("Petrov");
         expectedDirector.setBirthDate(LocalDate.of(1985, 2, 16));
-        expectedDirector.setFilms(Collections.emptyList());
+//        expectedDirector.setFilms(Collections.emptyList());
 
         Director actualDirector = directorDao.find(16);
 

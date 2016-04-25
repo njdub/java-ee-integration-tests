@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created on 08-Apr-16.
@@ -60,7 +61,7 @@ public class MySQLDirectorDao implements DirectorDao {
                 director.setFirstName(rs.getString("first_name"));
                 director.setLastName(rs.getString("last_name"));
                 director.setBirthDate(rs.getDate("birth_date").toLocalDate());
-                director.setFilms(Collections.emptyList());
+//                director.setFilms(Collections.emptyList());
             }
             return director;
         } catch (SQLException e) {

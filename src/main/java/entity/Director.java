@@ -84,4 +84,15 @@ public class Director {
         result = 31 * result + (films != null ? films.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Director{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", films=" + films +
+                '}';
+    }
 }
