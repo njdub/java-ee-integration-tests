@@ -140,13 +140,11 @@ public class MySQLDirectorDaoIT {
         expectedDirector1.setFirstName("Oleg");
         expectedDirector1.setLastName("Petrov");
         expectedDirector1.setBirthDate(LocalDate.of(1985, 2, 16));
-        expectedDirector1.setFilms(Collections.emptyList());
 
         Director expectedDirector2 = new Director(20);
         expectedDirector2.setFirstName("Maxim");
         expectedDirector2.setLastName("Petrov");
         expectedDirector2.setBirthDate(LocalDate.of(1985, 2, 25));
-        expectedDirector2.setFilms(Collections.emptyList());
 
         List<Director> expectedDirectorList = Arrays.asList(expectedDirector1, expectedDirector2);
 

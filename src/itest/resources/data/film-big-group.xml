@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <directors id="15" first_name="Ivan" last_name="Ivanov" birth_date="1976-3-16"/>
+    <directors id="16" first_name="Oleg" last_name="Olegov" birth_date="1976-3-16"/>
+    <films id="10" title="Mad Max" duration="7200" year="2015" description="Very interesting film" director_id="15"/>
+    <films id="11" title="Dead Max" duration="3600" year="2016" description="Not very interesting film" director_id="15"/>
+    <films id="12" title="Angry Max" duration="3600" year="2015" description="Very interesting film" director_id="16"/>
+</dataset>

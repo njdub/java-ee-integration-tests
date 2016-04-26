@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface FilmDao extends GenericDao<Film> {
 
-    public List<Film> findBy(Year year);
+    public List<Film> findBy(Year year) throws StorageException;
 
-    public List<Film> findBy(long directorId);
+    public List<Film> findBy(long directorId) throws StorageException;
 
 }

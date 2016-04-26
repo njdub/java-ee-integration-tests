@@ -22,9 +22,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
+import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static utils.DbUnitUtils.getDataSetByPath;
 
@@ -36,7 +40,6 @@ import static utils.DbUnitUtils.getDataSetByPath;
 
 @RunWith(Arquillian.class)
 public class MySQLFilmDaoIT {
-
 
     private IDatabaseTester tester;
 
@@ -116,5 +119,97 @@ public class MySQLFilmDaoIT {
         IDataSet actualData = connection.createDataSet();
 
         Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
+
+        filmDao.delete(10);
+
+        IDataSet expectedData = getDataSetByPath("data/director/director-single.xml");
+        IDataSet actualData = connection.createDataSet();
+
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
+
+        Director director = new Director(15);
+        director.setFirstName("Ivan");
+        director.setLastName("Ivanov");
+        director.setBirthDate(LocalDate.of(1976, 3, 16));
+
+        Film newFilm = new Film(10);
+        newFilm.setTitle("Mad Max");
+        newFilm.setDuration(Duration.ofSeconds(3600));
+        newFilm.setYear(Year.of(2015));
+        newFilm.setDescription("Not very interesting film");
+        newFilm.setDirector(director);
+
+        Film actualFilm = filmDao.update(10, newFilm);
+
+        Assert.assertEquals(newFilm, actualFilm);
+
+        IDataSet expectedData = getDataSetByPath("data/group-updated.xml");
+        IDataSet actualData = connection.createDataSet();
+
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
+    }
+
+    @Test
+    public void testFindByDirectorId() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/film-big-group.xml"));
+
+        Director director = new Director(15);
+        director.setFirstName("Ivan");
+        director.setLastName("Ivanov");
+        director.setBirthDate(LocalDate.of(1976, 3, 16));
+
+        Film filmOne = new Film(10);
+        filmOne.setTitle("Mad Max");
+        filmOne.setDuration(Duration.ofSeconds(7200));
+        filmOne.setYear(Year.of(2015));
+        filmOne.setDescription("Very interesting film");
+        filmOne.setDirector(director);
+
+        Film filmTwo = new Film(11);
+        filmTwo.setTitle("Dead Max");
+        filmTwo.setDuration(Duration.ofSeconds(3600));
+        filmTwo.setYear(Year.of(2016));
+        filmTwo.setDescription("Not very interesting film");
+        filmTwo.setDirector(director);
+
+        List<Film> expectedResult = Arrays.asList(filmOne, filmTwo);
+
+        List<Film> actualResult = filmDao.findBy(director.getId());
+
+        Assert.assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
+    }
+
+    @Test
+    public void testFindByYear() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/film-big-group.xml"));
+
+        Director director = new Director(15);
+        director.setFirstName("Ivan");
+        director.setLastName("Ivanov");
+        director.setBirthDate(LocalDate.of(1976, 3, 16));
+
+        Film filmTwo = new Film(11);
+        filmTwo.setTitle("Dead Max");
+        filmTwo.setDuration(Duration.ofSeconds(3600));
+        filmTwo.setYear(Year.of(2016));
+        filmTwo.setDescription("Not very interesting film");
+        filmTwo.setDirector(director);
+
+        List<Film> expectedResult = Collections.singletonList(filmTwo);
+
+        List<Film> actualResult = filmDao.findBy(Year.of(2016));
+
+        Assert.assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
+
     }
 }
