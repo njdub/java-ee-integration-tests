@@ -80,6 +80,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.20'
     compile 'org.slf4j:slf4j-nop:1.7.20'
     compile 'mysql:mysql-connector-java:5.1.38'
+    compile 'org.mongodb:mongodb-driver:3.2.2'
 
     itestCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
     itestCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha6'
@@ -87,6 +88,9 @@ dependencies {
     itestCompile 'org.dbunit:dbunit:2.5.1'
 
     testCompile 'junit:junit:4.11'
+
+//    https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo
+    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3'
 }
 
 task arquillianBuild << {
@@ -148,7 +152,7 @@ def outputDir = file("$buildDir/generated-src")
 task generateDatasourceSources(type: Copy) {
     from 'configurataion/template'
     into outputDir
-    doFirst{
+    doFirst {
         expand(currentProperties)
     }
 }
