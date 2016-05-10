@@ -83,6 +83,7 @@ dependencies {
     compile 'org.mongodb:mongodb-driver:3.2.2'
 
     itestCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
+//    https://github.com/arquillian/arquillian-container-chameleon
     itestCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha6'
     itestCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.2'
     itestCompile 'org.dbunit:dbunit:2.5.1'

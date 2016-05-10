@@ -14,4 +14,14 @@
             <property name="managementPort">10290</property>
         </configuration>
     </container>
+    <!--<container qualifier="chameleon" default="true">-->
+        <!--<configuration>-->
+            <!--<property name="chameleonTarget">glassfish:4.1.1:embedded</property>-->
+            <!--&lt;!&ndash;<property name="chameleonTarget">wildfly:9.0.0.Final:embedded</property>&ndash;&gt;-->
+            <!--<property name="serverConfig">standalone-full.xml</property>-->
+            <!--&lt;!&ndash;<property name="modulePath">E:\data\dev_data\IdeaProjects\STADY\java-tk-ee\target\server\wildfly-dist_9.0.0.Final\wildfly-9.0.0.Final\modules</property>&ndash;&gt;-->
+            <!--&lt;!&ndash;<property name="jbossHome">E:\data\dev_data\IdeaProjects\STADY\java-tk-ee\target\server\wildfly-dist_9.0.0.Final\wildfly-9.0.0.Final</property>&ndash;&gt;-->
+            <!--&lt;!&ndash;<property name="managementPort">10380</property>&ndash;&gt;-->
+        <!--</configuration>-->
+    <!--</container>-->
 </arquillian>

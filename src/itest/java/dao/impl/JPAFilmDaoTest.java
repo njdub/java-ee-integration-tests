@@ -1,5 +1,6 @@
 package dao.impl;
 
+import dao.DirectorDao;
 import dao.FilmDao;
 import entity.Director;
 import entity.Film;
@@ -15,11 +16,18 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.gradle.archive.importer.embedded.EmbeddedGradleImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
-import java.lang.reflect.Array;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Year;
@@ -27,23 +35,29 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.*;
 import static utils.DbUnitUtils.getDataSetByPath;
 
 /**
- * Created on 22-Apr-16.
+ * Created on 10-May-16.
  *
  * @author Nazar Dub
  */
-@Ignore
 @RunWith(Arquillian.class)
-public class MySQLFilmDaoIT {
+public class JPAFilmDaoTest {
 
     private IDatabaseTester tester;
 
     private IDatabaseConnection connection;
 
-    @EJB(beanName = "MySQLFilmDao")
+    @EJB(beanName = "JPAFilmDao")
     private FilmDao filmDao;
+
+    @Inject
+    UserTransaction utx;
+
+    @PersistenceContext(name = "primary")
+    EntityManager em;
 
     @Deployment
     public static Archive<WebArchive> createDeployment() throws Exception {
@@ -62,6 +76,7 @@ public class MySQLFilmDaoIT {
         tester.setDataSet(emptyData);
         tester.setSetUpOperation(DatabaseOperation.NONE);
         tester.onSetup();
+        utx.begin();
     }
 
     @After
@@ -69,95 +84,34 @@ public class MySQLFilmDaoIT {
         DatabaseOperation tearDownOperation = DatabaseOperation.CLOSE_CONNECTION(DatabaseOperation.DELETE_ALL);
         tester.setTearDownOperation(tearDownOperation);
         tester.onTearDown();
+        utx.rollback();
     }
 
     @Test
-    public void testFind() throws Exception {
-        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
+    public void testFindByYear() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/film-big-group.xml"));
 
         Director director = new Director(15);
         director.setFirstName("Ivan");
         director.setLastName("Ivanov");
         director.setBirthDate(LocalDate.of(1976, 3, 16));
 
-        Film expectedFilm = new Film(10);
-        expectedFilm.setTitle("Mad Max");
-        expectedFilm.setDuration(Duration.ofSeconds(7200));
-        expectedFilm.setYear(Year.of(2015));
-        expectedFilm.setDescription("Very interesting film");
-        expectedFilm.setDirector(director);
+        Film filmTwo = new Film(11);
+        filmTwo.setTitle("Dead Max");
+        filmTwo.setDuration(Duration.ofSeconds(3600));
+        filmTwo.setYear(Year.of(2016));
+        filmTwo.setDescription("Not very interesting film");
+        filmTwo.setDirector(director);
 
-        Film actualFilm = filmDao.find(10);
+        List<Film> expectedResult = Collections.singletonList(filmTwo);
 
-        Assert.assertEquals(expectedFilm, actualFilm);
+        List<Film> actualResult = filmDao.findBy(Year.of(2016));
+
+        Assert.assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
     }
 
     @Test
-    public void testSave() throws Exception {
-        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-single.xml"));
-
-        Director director = new Director(15);
-        director.setFirstName("Ivan");
-        director.setLastName("Ivanov");
-        director.setBirthDate(LocalDate.of(1976, 3, 16));
-
-        Film newFilm = new Film(10);
-        newFilm.setTitle("Mad Max");
-        newFilm.setDuration(Duration.ofSeconds(7200));
-        newFilm.setYear(Year.of(2015));
-        newFilm.setDescription("Very interesting film");
-        newFilm.setDirector(director);
-
-        Film actualFilm = filmDao.create(newFilm);
-
-        Assert.assertEquals(newFilm, actualFilm);
-
-        IDataSet expectedData = getDataSetByPath("data/group.xml");
-        IDataSet actualData = connection.createDataSet();
-
-        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
-
-        filmDao.delete(10);
-
-        IDataSet expectedData = getDataSetByPath("data/director/director-single.xml");
-        IDataSet actualData = connection.createDataSet();
-
-        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
-        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
-
-        Director director = new Director(15);
-        director.setFirstName("Ivan");
-        director.setLastName("Ivanov");
-        director.setBirthDate(LocalDate.of(1976, 3, 16));
-
-        Film newFilm = new Film(10);
-        newFilm.setTitle("Mad Max");
-        newFilm.setDuration(Duration.ofSeconds(3600));
-        newFilm.setYear(Year.of(2015));
-        newFilm.setDescription("Not very interesting film");
-        newFilm.setDirector(director);
-
-        Film actualFilm = filmDao.update(10, newFilm);
-
-        Assert.assertEquals(newFilm, actualFilm);
-
-        IDataSet expectedData = getDataSetByPath("data/group-updated.xml");
-        IDataSet actualData = connection.createDataSet();
-
-        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
-    }
-
-    @Test
-    public void testFindByDirectorId() throws Exception {
+    public void testFindByDirector() throws Exception {
         DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/film-big-group.xml"));
 
         Director director = new Director(15);
@@ -187,26 +141,92 @@ public class MySQLFilmDaoIT {
     }
 
     @Test
-    public void testFindByYear() throws Exception {
-        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/film-big-group.xml"));
+    public void testFind() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
 
         Director director = new Director(15);
         director.setFirstName("Ivan");
         director.setLastName("Ivanov");
         director.setBirthDate(LocalDate.of(1976, 3, 16));
 
-        Film filmTwo = new Film(11);
-        filmTwo.setTitle("Dead Max");
-        filmTwo.setDuration(Duration.ofSeconds(3600));
-        filmTwo.setYear(Year.of(2016));
-        filmTwo.setDescription("Not very interesting film");
-        filmTwo.setDirector(director);
+        Film expectedFilm = new Film(10);
+        expectedFilm.setTitle("Mad Max");
+        expectedFilm.setDuration(Duration.ofSeconds(7200));
+        expectedFilm.setYear(Year.of(2015));
+        expectedFilm.setDescription("Very interesting film");
 
-        List<Film> expectedResult = Collections.singletonList(filmTwo);
+        expectedFilm.setDirector(director);
+        director.setFilms(Collections.singletonList(expectedFilm));
 
-        List<Film> actualResult = filmDao.findBy(Year.of(2016));
+        Film actualFilm = filmDao.find(10);
+        Assert.assertEquals(expectedFilm, actualFilm);
+    }
 
-        Assert.assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
+    @Test
+    public void testCreate() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/director/director-single.xml"));
 
+        Director director = new Director(15);
+        director.setFirstName("Ivan");
+        director.setLastName("Ivanov");
+        director.setBirthDate(LocalDate.of(1976, 3, 16));
+
+        Film newFilm = new Film(10);
+        newFilm.setTitle("Mad Max");
+        newFilm.setDuration(Duration.ofSeconds(7200));
+        newFilm.setYear(Year.of(2015));
+        newFilm.setDescription("Very interesting film");
+
+        newFilm.setDirector(director);
+
+        Film actualFilm = filmDao.create(newFilm);
+        em.flush();
+
+        Assert.assertEquals(newFilm, actualFilm);
+
+        IDataSet expectedData = getDataSetByPath("data/group.xml");
+        IDataSet actualData = connection.createDataSet();
+
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
+
+        Director director = new Director(15);
+        director.setFirstName("Ivan");
+        director.setLastName("Ivanov");
+        director.setBirthDate(LocalDate.of(1976, 3, 16));
+
+        Film newFilm = new Film(10);
+        newFilm.setTitle("Mad Max");
+        newFilm.setDuration(Duration.ofSeconds(3600));
+        newFilm.setYear(Year.of(2015));
+        newFilm.setDescription("Not very interesting film");
+        newFilm.setDirector(director);
+
+        Film actualFilm = filmDao.update(10, newFilm);
+        em.flush();
+
+        Assert.assertEquals(newFilm, actualFilm);
+
+        IDataSet expectedData = getDataSetByPath("data/group-updated.xml");
+        IDataSet actualData = connection.createDataSet();
+
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        DatabaseOperation.INSERT.execute(connection, getDataSetByPath("data/group.xml"));
+
+        filmDao.delete(10);
+        em.flush();
+
+        IDataSet expectedData = getDataSetByPath("data/director/director-single.xml");
+        IDataSet actualData = connection.createDataSet();
+
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
     }
 }

@@ -26,10 +26,14 @@ public class MongoDBDataSourceImpl implements MongoDBDataSource {
     private MongoDatabase database;
 
     @PostConstruct
-    public void configureDataSource() throws IOException {
+    public void configureDataSource() {
         InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_FILE_PATH);
         Properties properties = new Properties();
-        properties.load(in);
+        try {
+            properties.load(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         String host = properties.getProperty("host");
         int port = Integer.valueOf(properties.getProperty("port"));
         String collectionName = properties.getProperty("collection");

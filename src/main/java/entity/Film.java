@@ -1,21 +1,29 @@
 package entity;
 
+import javax.persistence.*;
 import java.time.Duration;
 import java.time.Year;
-import java.util.IllegalFormatCodePointException;
 
 /**
  * Created on 25-Mar-16.
  *
  * @author Nazar Dub
  */
+
+@Entity
+@Table(name = "films")
 public class Film {
+
+    @Id
     private long id;
 
     private String title;
     private Duration duration;
     private Year year;
     private String description;
+
+    @JoinColumn(name = "director_id")
+    @ManyToOne
     private Director director;
 
     public Film() {

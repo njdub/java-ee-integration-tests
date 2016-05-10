@@ -1,5 +1,6 @@
 package entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,12 +9,23 @@ import java.util.List;
  *
  * @author Nazar Dub
  */
+@Entity
+@Table(name = "directors")
 public class Director {
+
+    @Id
     private long id;
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "birth_date")
     private LocalDate birthDate;
+
+    @OneToMany(mappedBy = "director", cascade = CascadeType.REMOVE)
     private List<Film> films;
 
 
@@ -70,8 +82,7 @@ public class Director {
         if (id != director.id) return false;
         if (firstName != null ? !firstName.equals(director.firstName) : director.firstName != null) return false;
         if (lastName != null ? !lastName.equals(director.lastName) : director.lastName != null) return false;
-        if (birthDate != null ? !birthDate.equals(director.birthDate) : director.birthDate != null) return false;
-        return films != null ? films.equals(director.films) : director.films == null;
+        return birthDate != null ? birthDate.equals(director.birthDate) : director.birthDate == null;
 
     }
 
@@ -81,7 +92,6 @@ public class Director {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
-        result = 31 * result + (films != null ? films.hashCode() : 0);
         return result;
     }
 
@@ -92,7 +102,7 @@ public class Director {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDate=" + birthDate +
-                ", films=" + films +
+//                ", films=" + films +
                 '}';
     }
 }
