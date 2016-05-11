@@ -1,6 +1,5 @@
 package dao.impl;
 
-import dao.DirectorDao;
 import dao.FilmDao;
 import entity.Director;
 import entity.Film;
@@ -27,7 +26,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Year;
@@ -35,7 +33,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static utils.DbUnitUtils.getDataSetByPath;
 
 /**
@@ -229,4 +226,5 @@ public class JPAFilmDaoTest {
 
         Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
     }
+
 }
