@@ -30,7 +30,7 @@ import static utils.DbUnitUtils.getDataSetByPath;
  *
  * @author Nazar Dub
  */
-@Ignore
+
 @RunWith(Arquillian.class)
 public class MySQLDirectorDaoIT {
 
