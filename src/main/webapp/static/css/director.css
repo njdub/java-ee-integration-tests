@@ -1,0 +1,12 @@
+
+.datepicker.dropdown-menu {
+    z-index: 999999;
+}
+
+#add-film-birth-day {
+    margin-top: 1px;
+}
+
+.datepicker {
+    padding-left: 0;
+}
