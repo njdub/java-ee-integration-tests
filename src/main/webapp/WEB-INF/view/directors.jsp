@@ -1,4 +1,7 @@
+<%@ page import="entity.Director" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en" data-leadgen="yes" data-advpp="yes">
 <head>
@@ -57,28 +60,24 @@
                 <th>#</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Username</th>
+                <th>Birth Day</th>
             </tr>
             </thead>
             <tbody>
+            <%List<Director> directors = (List<Director>) request.getAttribute("directors");%>
+            <%for (int i = 0; i < directors.size(); i++) {%>
+            <%Director d = directors.get(i);%>
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row"><%=i + 1%>
+                </th>
+                <td><%=d.getFirstName()%>
+                </td>
+                <td><%=d.getLastName()%>
+                </td>
+                <td><%=d.getBirthDate()%>
+                </td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+            <%}%>
             </tbody>
         </table>
     </div>

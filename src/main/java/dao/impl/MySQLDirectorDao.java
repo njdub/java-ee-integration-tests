@@ -46,6 +46,11 @@ public class MySQLDirectorDao implements DirectorDao {
     }
 
     @Override
+    public List<Director> findAll() throws StorageException {
+        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    }
+
+    @Override
     public Director find(long id) throws StorageException {
         try (Connection connection = dataSource.getConnection()) {
             Director director = null;

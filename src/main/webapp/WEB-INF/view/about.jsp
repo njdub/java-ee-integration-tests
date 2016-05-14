@@ -1,3 +1,4 @@
+<%@ page import="java.util.Random" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en" data-leadgen="yes" data-advpp="yes">
@@ -33,7 +34,8 @@
     </div>
     <hr/>
     <div class="img-responsive">
-        <img src="static/img/cats/cat-2.jpg" alt="Cat is sleeping now, come later" class="center-block">
+        <img src="static/img/cats/cat-<%=new Random().nextInt(8) + 1%>.jpg" alt="Cat is sleeping now, come later"
+             class="center-block cat-image">
     </div>
     <%@include file="footer.jsp" %>
 

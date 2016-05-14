@@ -3,10 +3,12 @@ package dao.impl;
 import dao.DirectorDao;
 import dao.StorageException;
 import entity.Director;
+import entity.Film;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -30,6 +32,12 @@ public class JPADirectorDao implements DirectorDao {
         Root<Director> p = cq.from(Director.class);
         cq.where(criteriaBuilder.equal(p.get("lastName"), lastName));
         return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Director> findAll() throws StorageException {
+        TypedQuery<Director> directorTypedQuery = em.createQuery("SELECT d FROM Director d", Director.class);
+        return directorTypedQuery.getResultList();
     }
 
     @Override

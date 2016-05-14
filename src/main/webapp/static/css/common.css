@@ -1,3 +1,7 @@
 .hightlight-nav li a:hover {
     color: black;
 }
+
+.cat-image {
+    max-width: 720px;
+}

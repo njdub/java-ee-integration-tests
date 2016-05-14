@@ -7,6 +7,7 @@ import entity.Film;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -41,6 +42,12 @@ public class JPAFilmDao implements FilmDao {
         Root<Film> p = cq.from(Film.class);
         cq.where(criteriaBuilder.equal(p.get("director"), directorId));
         return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Film> findAll() throws StorageException {
+        TypedQuery<Film> filmTypedQuery = em.createQuery("SELECT f FROM Film f", Film.class);
+        return filmTypedQuery.getResultList();
     }
 
     @Override

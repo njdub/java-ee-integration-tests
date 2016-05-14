@@ -51,6 +51,11 @@ public class MongoDBDirectorDao implements DirectorDao {
     }
 
     @Override
+    public List<Director> findAll() throws StorageException {
+        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    }
+
+    @Override
     public Director find(long id) throws StorageException {
         MongoCollection<Director> collection = getCollection();
         Director director = null;

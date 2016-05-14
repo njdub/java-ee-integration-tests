@@ -16,4 +16,6 @@ public interface FilmDao extends GenericDao<Film> {
 
     public List<Film> findBy(long directorId) throws StorageException;
 
+    public List<Film> findAll() throws StorageException;
+
 }

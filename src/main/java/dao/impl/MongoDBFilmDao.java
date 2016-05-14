@@ -65,6 +65,11 @@ public class MongoDBFilmDao implements FilmDao {
     }
 
     @Override
+    public List<Film> findAll() throws StorageException {
+        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    }
+
+    @Override
     public Film find(long id) throws StorageException {
         MongoCollection<Film> collection = getCollection();
         Film film = null;

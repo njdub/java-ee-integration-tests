@@ -81,6 +81,13 @@ public class Film {
         this.director = director;
     }
 
+    public String getFormattedDuration() {
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        return String.format("%02d:%02d", hours, minutes);
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

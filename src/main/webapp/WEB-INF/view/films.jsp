@@ -1,4 +1,7 @@
+<%@ page import="entity.Film" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en" data-leadgen="yes" data-advpp="yes">
 <head>
@@ -32,34 +35,47 @@
 
     <div class="row">
         <div class="col-lg-1">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-film-modal">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 Add Film
             </button>
         </div>
     </div>
     <hr/>
+    <%--<div class="row">--%>
+    <%List<Film> films = (List<Film>) request.getAttribute("films");%>
+    <%for (int i = 0; i < films.size(); i++) {%>
+    <%Film f = films.get(i);%>
+    <%if (i == 0 || (i) % 3 == 0) {%>
     <div class="row">
+        <%}%>
         <div class="col-lg-4">
-            <h2>Some Film</h2>
-            <p><b>Duration: </b> 16:20</p>
-            <p><b>Year: </b> 1658</p>
-            <p><b>Director: </b> Ivan Ivanov</p>
+            <h2><%=f.getTitle()%>
+            </h2>
+            <p><b>Duration: </b> <%=f.getFormattedDuration()%>
+            </p>
+            <p><b>Year: </b> <%=f.getYear()%>
+            </p>
+            <p><b>Director: </b> <%=f.getDirector().getFullName()%>
+            </p>
             <!--<p><b>Description: </b></p>-->
-            <p> Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <hr/>
+            <p><%=f.getDescription()%>
+            </p>
         </div>
+        <%if ((i != 0 && (i + 1) % 3 == 0) || i == films.size() - 1) {%>
     </div>
+    <hr/>
+    <%}%>
+    <%}%>
+    <%--</div>--%>
 
-    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal fade" id="add-film-modal" role="dialog" aria-labelledby="add-film-modal-title">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">New Film</h4>
+                    <h4 class="modal-title" id="add-film-modal-title">New Film</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -69,7 +85,8 @@
                         </div>
                         <div class="form-group">
                             <label for="add-film-year" class="control-label">Year:</label>
-                            <input type="text" placeholder="yyyy" class="form-control" id="add-film-year" name="title">
+                            <input type="text" placeholder="yyyy" class="form-control" id="add-film-year"
+                                   name="title">
                         </div>
                         <div class="form-group">
                             <label for="add-film-duration" class="control-label">Duration:</label>
@@ -100,7 +117,7 @@
             </div>
         </div>
     </div>
-    <%@include file="footer.jsp"%>
+    <%@include file="footer.jsp" %>
 
 </div> <!-- /container -->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>

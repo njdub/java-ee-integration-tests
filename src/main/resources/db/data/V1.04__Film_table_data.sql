@@ -1,2 +1,13 @@
 INSERT INTO films (id, title, duration, year, description, director_id)
-  VALUE (1, 'Warrior', 3600, 2008, 'Nice film', 1);
+  VALUE
+  (1, 'Warrior', 8600, 2011, 'The youngest son of an alcoholic former boxer returns home, where he''s trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.', 1),
+  (2, 'Captain America', 8150, 2011, 'Political interference in the Avengers'' activities causes a rift between former allies Captain America and Iron Man.', 1),
+  (3, 'Assassin''s Creed', 7150, 2010, 'When Callum Lynch (Michael Fassbender) explores the memories of his ancestor Aguilar and gains the skills of a Master Assassin, he discovers he is a descendant of the secret Assassins society.', 3),
+  (4, 'Snowtown', 7150, 2011, 'Based on true events, 16 year-old Jamie falls in with his mother''s new boyfriend and his crowd of self-appointed neighborhood watchmen, a relationship that leads to a spree of torture and murder.', 3),
+  (5, 'The Turning', 7150, 2013, 'A collection of short films based on stories by Australian writer Tim Winton.', 4),
+  (6, 'Billy Lynn''s Long Halftime Walk', 5254, 2010, '19-year-old Billy Lynn is brought home for a victory tour after a harrowing Iraq battle. Through flashbacks the film shows what really happened to his squad - contrasting the realities of war with America''s perceptions.', 5),
+  (7, 'Life of Pi', 10150, 2012, 'A young man who survives a disaster at sea is hurtled into an epic journey of adventure and discovery. While cast away, he forms an unexpected connection with another survivor: a fearsome Bengal tiger.', 5),
+  (8, 'Wo hu cang long', 5150, 2000, 'Two warriors in pursuit of a stolen sword and a notorious fugitive are led to an impetuous, physically skilled, adolescent nobleman''s daughter, who is at a crossroads in her life.', 5),
+  (9, 'Brokeback Mountain', 7150, 2013, 'The story of a forbidden and secretive relationship between two cowboys, and their lives over the years.', 5),
+  (10, 'Hulk ', 9256, 2003, 'Bruce Banner, a genetics researcher with a tragic past, suffers an accident that causes him to transform into a raging green monster when he gets angry.', 5),
+  (11, 'Macbeth', 8160, 2015, 'Macbeth, the Thane of Glamis, receives a prophecy from a trio of witches that one day he will become King of Scotland. Consumed by ambition and spurred to action by his wife, Macbeth murders his king and takes the throne for himself.', 3);

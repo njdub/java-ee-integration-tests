@@ -82,6 +82,11 @@ public class MySQLFilmDao implements FilmDao {
     }
 
     @Override
+    public List<Film> findAll() throws StorageException {
+        throw new UnsupportedOperationException("This method hasn't implemented, yet");
+    }
+
+    @Override
     public Film find(long id) throws StorageException {
         try (Connection connection = dataSource.getConnection()) {
             Film film = null;

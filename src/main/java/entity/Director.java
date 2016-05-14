@@ -48,6 +48,11 @@ public class Director {
         return lastName;
     }
 
+    public String getFullName() {
+        String fullName = firstName + " " + lastName;
+        return fullName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
