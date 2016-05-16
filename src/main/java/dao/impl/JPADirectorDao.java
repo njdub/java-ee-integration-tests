@@ -3,7 +3,6 @@ package dao.impl;
 import dao.DirectorDao;
 import dao.StorageException;
 import entity.Director;
-import entity.Film;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -16,13 +16,15 @@
 
     <title>Film Studio|Films</title>
 
+    <link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">1
+    <link href="static/css/justified-nav.css" rel="stylesheet">
+    <link href="static/notification/css/bootstrap-notify.css" rel="stylesheet">
+    <link href="static/notification/css/styles/alert-blackgloss.css" rel="stylesheet">
+
     <link href="static/css/common.css" rel="stylesheet">
 
-    <!-- Bootstrap core CSS -->
-    <link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="static/css/justified-nav.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="static/notification/js/bootstrap-notify.js"></script>
 </head>
 
 <body>
@@ -78,7 +80,7 @@
                     <h4 class="modal-title" id="add-film-modal-title">New Film</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="post" id="add-film-form">
                         <div class="form-group">
                             <label for="add-film-title" class="control-label">Title:</label>
                             <input AUTOFOCUS type="text" class="form-control" id="add-film-title" name="title">
@@ -86,41 +88,39 @@
                         <div class="form-group">
                             <label for="add-film-year" class="control-label">Year:</label>
                             <input type="text" placeholder="yyyy" class="form-control" id="add-film-year"
-                                   name="title">
+                                   name="year">
                         </div>
                         <div class="form-group">
                             <label for="add-film-duration" class="control-label">Duration:</label>
                             <input type="text" placeholder="hh:mm" class="form-control" id="add-film-duration"
-                                   name="title">
+                                   name="duration">
                         </div>
                         <div class="form-group">
                             <label for="add-film-director-id" class="control-label">Director:</label>
                             <select class="form-control" id="add-film-director-id" name="director_id">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
                             </select>
 
                         </div>
                         <div class="form-group">
                             <label for="add-film-description" class="control-label">Description:</label>
-                            <textarea class="form-control" id="add-film-description" rows="5"></textarea>
+                            <textarea name="description" class="form-control" id="add-film-description" rows="5"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Save film</button>
+                    <button type="button" onclick="$('#add-film-form').submit()" class="btn btn-success">Save film</button>
                 </div>
             </div>
         </div>
     </div>
     <%@include file="footer.jsp" %>
 
+    <div alert-message="${message}" class='notifications bottom-right'></div>
+
 </div> <!-- /container -->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>
-<script language="JavaScript"></script>
+<script src="static/js/common.js"></script>
+<script src="static/js/film.js"></script>
 </body>
 </html>

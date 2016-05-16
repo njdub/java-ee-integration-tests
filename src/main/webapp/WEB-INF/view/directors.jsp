@@ -125,6 +125,7 @@
 
 </div> <!-- /container -->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>
+<script src="static/js/common.js"></script>
 <script src="static/js/director.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +28,7 @@ public class Director {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "director", cascade = CascadeType.REMOVE)
     private List<Film> films;
 

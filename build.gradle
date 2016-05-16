@@ -83,6 +83,9 @@ dependencies {
     compile 'org.slf4j:slf4j-nop:1.7.20'
     compile 'mysql:mysql-connector-java:5.1.38'
     compile 'org.mongodb:mongodb-driver:3.2.2'
+    // http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.4'
+
 
     itestCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
 //    https://github.com/arquillian/arquillian-container-chameleon
