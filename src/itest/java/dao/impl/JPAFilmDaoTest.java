@@ -179,12 +179,15 @@ public class JPAFilmDaoTest {
         Film actualFilm = filmDao.create(newFilm);
         em.flush();
 
+        long testId = 0;
+        newFilm.setId(testId);
+        actualFilm.setId(testId);
         Assert.assertEquals(newFilm, actualFilm);
 
         IDataSet expectedData = getDataSetByPath("data/group.xml");
         IDataSet actualData = connection.createDataSet();
 
-        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{});
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, "films", new String[]{"id"});
     }
 
     @Test

@@ -69,7 +69,7 @@ public class MySQLDirectorDaoIT {
 
     @Test
     public void testSave() throws Exception {
-        Director director = new Director();
+        Director director = new Director(15);
         director.setFirstName("Ivan");
         director.setLastName("Ivanov");
         director.setBirthDate(LocalDate.of(1976, 3, 16));

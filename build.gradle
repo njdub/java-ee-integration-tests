@@ -106,6 +106,7 @@ task configureArquillianWar << {
         }
         classpath configurations.itestCompile - configurations.compile + sourceSets.itest.runtimeClasspath
     }
+    war.archiveName = null;
 }
 
 arquillianBuild.dependsOn configureArquillianWar

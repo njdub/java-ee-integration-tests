@@ -62,7 +62,7 @@ public class JPAFilmDao implements FilmDao {
 
     @Override
     public Film update(long id, Film entity) throws StorageException {
-        em.remove(em.find(Film.class, id));
+//        em.remove(em.find(Film.class, id));
         return em.merge(entity);
     }
 

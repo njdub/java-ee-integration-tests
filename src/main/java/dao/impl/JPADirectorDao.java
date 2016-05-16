@@ -52,7 +52,7 @@ public class JPADirectorDao implements DirectorDao {
 
     @Override
     public Director update(long id, Director entity) throws StorageException {
-        em.remove(em.find(Director.class, id));
+//        em.remove(em.find(Director.class, id));
         return em.merge(entity);
     }
 
