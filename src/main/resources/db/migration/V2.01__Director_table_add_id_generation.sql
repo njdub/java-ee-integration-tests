@@ -2,5 +2,6 @@
 ALTER TABLE films DROP FOREIGN KEY films_ibfk_1;
 ALTER TABLE directors DROP PRIMARY KEY;
 ALTER TABLE directors CHANGE id id INT AUTO_INCREMENT PRIMARY KEY;
-ALTER TABLE films ADD CONSTRAINT films_director_id_fk FOREIGN KEY (director_id) REFERENCES directors (id)
+ALTER TABLE films ADD CONSTRAINT films_director_id_fk FOREIGN KEY (director_id)
+REFERENCES directors (id) ON DELETE CASCADE;
 # SET GLOBAL FOREIGN_KEY_CHECKS = 1;
