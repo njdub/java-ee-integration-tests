@@ -5,7 +5,7 @@
  * @author Nazar Dub
  */
 
-$('#add-film-birth-day').datepicker({"viewMode": "years", "format": "mm-dd-yyyy"});
+$('#add-film-birth-day').datepicker({"viewMode": "years", "format": "yyyy-mm-dd"});
 
 //$("#add-director-modal").modal();
 

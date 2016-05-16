@@ -15,7 +15,8 @@ import java.time.Year;
 public class Film {
 
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
     private Duration duration;

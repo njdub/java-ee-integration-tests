@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -28,7 +29,21 @@ public class DirectorServlet extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String firstName = request.getParameter("first_name");
+        String lastName = request.getParameter("last_name");
+        String birthDateString = request.getParameter("birth_date");
+        Director director = new Director();
+        director.setFirstName(firstName);
+        director.setLastName(lastName);
+        director.setBirthDate(LocalDate.parse(birthDateString));
+        try {
+            directorDao.create(director);
+            request.setAttribute("message", "Director was successful saved");
+            doGet(request, response);
+        } catch (StorageException e) {
+            response.sendError(SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -14,7 +14,8 @@ import java.util.List;
 public class Director {
 
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -27,7 +28,6 @@ public class Director {
 
     @OneToMany(mappedBy = "director", cascade = CascadeType.REMOVE)
     private List<Film> films;
-
 
     public Director() {
     }

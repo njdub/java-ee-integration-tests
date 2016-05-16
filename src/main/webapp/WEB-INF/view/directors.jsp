@@ -92,7 +92,7 @@
                     <h4 class="modal-title" id="add-director-modal-title">New Director</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="add-director-form" method="post">
                         <div class="form-group">
                             <label for="add-director-first-name" class="control-label">First Name:</label>
                             <input AUTOFOCUS type="text" class="form-control" id="add-director-first-name"
@@ -105,15 +105,15 @@
                         <div class="form-group datepicker-input-group">
                             <label for="add-film-birth-day" class="control-label">Birth day:</label>
                             <div class="datepicker">
-                                <input class="form-control" id="add-film-birth-day" type="text"
-                                       placeholder="dd-mm-yyyy">
+                                <input class="form-control" id="add-film-birth-day" name="birth_date" type="text"
+                                       placeholder="yyyy-mm-dd">
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Save Director</button>
+                    <button type="button" onclick="$('#add-director-form').submit()" class="btn btn-success">Save Director</button>
                 </div>
             </div>
         </div>
@@ -121,7 +121,7 @@
 
     <%@include file="footer.jsp" %>
 
-    <div alert-message="Some text" class='notifications bottom-right'></div>
+    <div alert-message="${message}" class='notifications bottom-right'></div>
 
 </div> <!-- /container -->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>
