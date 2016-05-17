@@ -8,6 +8,8 @@ import entity.Film;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +28,7 @@ import java.util.Objects;
  * @author Nazar Dub
  */
 @Stateless(name = "MySQLFilmDao")
+@TransactionManagement(TransactionManagementType.BEAN)
 public class MySQLFilmDao implements FilmDao {
 
     @EJB(lookup = "java:global/jdbc/MySql/filmStudio")

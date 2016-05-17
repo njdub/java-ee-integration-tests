@@ -6,6 +6,8 @@ import entity.Director;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.Objects;
  * @author Nazar Dub
  */
 @Stateless(name = "MySQLDirectorDao")
+@TransactionManagement(TransactionManagementType.BEAN)
 public class MySQLDirectorDao implements DirectorDao {
 
     @EJB(lookup = "java:global/jdbc/MySql/filmStudio")

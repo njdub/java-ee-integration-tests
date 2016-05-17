@@ -27,9 +27,6 @@ public class DirectorResource {
     @EJB(beanName = "JPADirectorDao")
     private DirectorDao directorDao;
 
-    @Inject
-    private UserTransaction utx;
-
     @GET
     @Path("/all")
     public Collection<Director> getDirectors() throws StorageException {
