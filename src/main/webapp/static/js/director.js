@@ -6,6 +6,7 @@
  */
 
 $('#add-film-birth-day').datepicker({"viewMode": "years", "format": "yyyy-mm-dd"});
+$('.add-film-birth').datepicker({"viewMode": "years", "format": "yyyy-mm-dd"});
 
 //$("#add-director-modal").modal();
 
