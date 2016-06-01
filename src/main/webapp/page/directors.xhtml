@@ -100,10 +100,10 @@
                         <h4 class="modal-title" id="add-director-modal-title">New Director</h4>
                     </div>
                     <div class="modal-body">
-                        <h:form id="add-director-form" method="post" action="#{newDirectorBean.submit()}">
+                        <h:form id="add-director-form" method="post">
                             <div class="form-group">
                                 <label for="add-director-first-name" class="control-label">First Name:</label>
-                                <h:inputText AUTOFOCUS="AUTOFOCUS" class="form-control" id="add-director-first-name"
+                                <h:inputText class="form-control" id="add-director-first-name"
                                              value="#{newDirectorBean.firstName}"/>
                             </div>
                             <div class="form-group">

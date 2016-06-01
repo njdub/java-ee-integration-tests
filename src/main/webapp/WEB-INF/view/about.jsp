@@ -26,7 +26,7 @@
 <body>
 
 <div class="container">
-    <%@ include file="header.jsp" %>
+    <%--<%@ include file="header.jsp" %>--%>
 
     <!-- Jumbotron -->
     <div class="jumbotron">
@@ -37,7 +37,7 @@
         <img src="static/img/cats/cat-<%=new Random().nextInt(8) + 1%>.jpg" alt="Cat is sleeping now, come later"
              class="center-block cat-image">
     </div>
-    <%@include file="footer.jsp" %>
+    <%--<%@include file="footer.jsp" %>--%>
 
 </div> <!-- /container -->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>

@@ -76,7 +76,7 @@ public class Director {
         this.films = films;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -113,4 +113,5 @@ public class Director {
 //                ", films=" + films +
                 '}';
     }
+
 }

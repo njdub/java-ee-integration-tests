@@ -5,15 +5,12 @@ import dao.DirectorDao;
 import dao.FilmDao;
 import dao.StorageException;
 import entity.Director;
-import entity.Film;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import java.time.Duration;
-import java.time.Year;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @ManagedBean
 @RequestScoped
-public class NewFilmBean {
+public class UpdateFilmBean {
 
     @EJB(beanName = "JPAFilmDao")
     private FilmDao filmDao;
@@ -37,6 +34,8 @@ public class NewFilmBean {
 
 
     private Map<String, String> directorsList;
+
+    private String filmId;
 
     private String title;
     private String year;
@@ -59,27 +58,42 @@ public class NewFilmBean {
 
 
     public void submit() {
-        String[] durationPart = duration.split(":");
-        Duration resultDuration = Duration.ofHours(Long.valueOf(durationPart[0]))
-                .plus(Duration.ofMinutes(Long.valueOf(durationPart[1])));
+        System.out.println(filmId);
+        System.out.println(title);
+        System.out.println(year);
+        System.out.println(duration);
+        System.out.println(directorId);
+        System.out.println(description);
 
-        Film film = new Film();
+//        String[] durationPart = duration.split(":");
+//        Duration resultDuration = Duration.ofHours(Long.valueOf(durationPart[0]))
+//                .plus(Duration.ofMinutes(Long.valueOf(durationPart[1])));
+//
+//        Film film = new Film();
+//
+//        film.setTitle(title);
+//        film.setDescription(description);
+//        film.setYear(Year.parse(year));
+//        film.setDuration(resultDuration);
+//        film.setDirector(new Director(Long.valueOf(directorId)));
+//
+//
+//        try {
+//            filmDao.create(film);
+//            messageBean.setMessage("Film was successful saved");
+//            clearState();
+//        } catch (StorageException e) {
+//            messageBean.setMessage(e.getMessage());
+//            e.printStackTrace();
+//        }
+    }
 
-        film.setTitle(title);
-        film.setDescription(description);
-        film.setYear(Year.parse(year));
-        film.setDuration(resultDuration);
-        film.setDirector(new Director(Long.valueOf(directorId)));
+    public String getFilmId() {
+        return filmId;
+    }
 
-
-        try {
-            filmDao.create(film);
-            messageBean.setMessage("Film was successful saved");
-            clearState();
-        } catch (StorageException e) {
-            messageBean.setMessage(e.getMessage());
-            e.printStackTrace();
-        }
+    public void setFilmId(String filmId) {
+        this.filmId = filmId;
     }
 
     public String getTitle() {

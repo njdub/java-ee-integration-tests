@@ -11,7 +11,7 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean
 @RequestScoped
 public class NotifyMessageBean {
-    private String message = "I";
+    private String message;
 
     public String getMessage() {
         return message;

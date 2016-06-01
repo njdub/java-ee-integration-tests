@@ -1,17 +1,18 @@
 "use strict";
 
-$('#add-film-modal').on('show.bs.modal', function (e) {
-    $.get(
-        "/rest/director/all",
-        {},
-        function (response) {
-            var director_select_item = $('#add-film-director-id');
-            director_select_item.html('');
-            response.forEach(function (item) {
-                var id = item.id;
-                var full_name = item.firstName + " " + item.lastName;
-                director_select_item.append('<option value="' + id + '">' + full_name + '</option>');
-            });
-        }
-    )
+var currentFlip = null;
+
+function updateFilm(id) {
+    if (currentFlip != null)
+        currentFlip.close();
+    var front = document.getElementById('film-view-' + id);
+    var back_content = '<form method="post" action="/page/films.jsf" enctype="application/x-www-form-urlencoded">' +
+        document.getElementById('update-film-form-' + id).innerHTML +
+        '</form>';
+    currentFlip = flippant.flip(front, back_content);
+}
+
+$(document).ready(function(){
+    //$('.notifications').after('<form action="/about" method="post"><button type="submit">Ivab</button></form>');
+    //$('.notifications').after('<form action="/about" method="post"><button type="submit">Ivab</button></form>');
 });
