@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+<h:head>
+    <c:set var="root" value="${pageContext.request.contextPath}"/>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Simple Film Studio project"/>
+    <meta name="author" content="TK"/>
+
+    <link rel="icon" href="${root}/static/img/film-icon.png"/>
+
+    <title>Film Studio|Directors</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="${root}/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="${root}/static/datepicker/css/datepicker.css" rel="stylesheet"/>
+    <link href="${root}/static/notification/css/bootstrap-notify.css" rel="stylesheet"/>
+    <link href="${root}/static/notification/css/styles/alert-blackgloss.css" rel="stylesheet"/>
+
+
+    <link href="${root}/static/css/justified-nav.css" rel="stylesheet"/>
+    <link href="${root}/static/css/common.css" rel="stylesheet"/>
+    <link href="${root}/static/css/director.css" rel="stylesheet"/>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"
+            type="application/javascript"></script>
+    <script src="${root}/static/datepicker/js/bootstrap-datepicker.js" type="application/javascript"></script>
+    <script src="${root}/static/notification/js/bootstrap-notify.js" type="application/javascript"></script>
+</h:head>
+
+<h:body>
+
+    <div class="container">
+        <ui:include src="/WEB-INF/particle/header.xhtml"/>
+
+        <div class="jumbotron">
+            <h1>Love Cats</h1>
+        </div>
+        <hr/>
+        <div class="img-responsive">
+            <img src="${root}/static/img/cats/cat-#{randomNumberBean.nextInt}.jpg" alt="Cat is sleeping now, come later"
+                 class="center-block cat-image"/>
+        </div>
+
+        <ui:include src="/WEB-INF/particle/footer.xhtml"/>
+
+    </div> <!-- /container -->
+    <script src="${root}/static/bootstrap/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="${root}/static/js/common.js" type="application/javascript"></script>
+    <script src="${root}/static/js/director.js" type="application/javascript"></script>
+</h:body>
+
+</html>
