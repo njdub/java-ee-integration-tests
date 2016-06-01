@@ -21,7 +21,7 @@ public class HomeFilter implements Filter {
         HttpServletResponse httpResp = (HttpServletResponse) resp;
 
         if (httpReq.getRequestURI().trim().equals("/")) {
-            httpResp.sendRedirect("/films");
+            httpResp.sendRedirect("/page/films.jsf");
         } else {
             chain.doFilter(req, resp);
         }

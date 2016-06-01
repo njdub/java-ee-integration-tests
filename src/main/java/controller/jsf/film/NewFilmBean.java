@@ -29,34 +29,14 @@ public class NewFilmBean {
     @EJB(beanName = "JPAFilmDao")
     private FilmDao filmDao;
 
-    @EJB(beanName = "JPADirectorDao")
-    private DirectorDao directorDao;
-
     @ManagedProperty("#{notifyMessageBean}")
     private NotifyMessageBean messageBean;
-
-
-    private Map<String, String> directorsList;
 
     private String title;
     private String year;
     private String duration;
     private String directorId;
     private String description;
-
-    @PostConstruct
-    public void init() {
-        try {
-            directorsList = directorDao
-                    .findAll()
-                    .stream()
-                    .collect(Collectors.toMap(Director::getFullName, d -> String.valueOf(d.getId())));
-        } catch (StorageException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
 
     public void submit() {
         String[] durationPart = duration.split(":");
@@ -128,14 +108,6 @@ public class NewFilmBean {
 
     public void setMessageBean(NotifyMessageBean messageBean) {
         this.messageBean = messageBean;
-    }
-
-    public Map<String, String> getDirectorsList() {
-        return directorsList;
-    }
-
-    public void setDirectorsList(Map<String, String> directorsList) {
-        this.directorsList = directorsList;
     }
 
     private void clearState() {

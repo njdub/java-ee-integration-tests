@@ -66,9 +66,9 @@
             </c:if>
             <div class="col-lg-4" id="film-view-#{films[number].id}">
                 <h2>#{films[number].title}</h2>
-                <p><b>Duration: </b>#{films[number].formattedDuration}</p>
-                <p><b>Year: </b>#{films[number].year}</p>
-                <p><b>Director: </b>#{films[number].director.fullName}</p>
+                <p><b>Duration: </b><span>#{films[number].formattedDuration}</span></p>
+                <p><b>Year: </b><span>#{films[number].year}</span></p>
+                <p><b>Director: </b><span>#{films[number].director.fullName}</span></p>
                 <p>#{films[number].description}</p>
                 <h:form styleClass="btn-group">
                     <div class="btn btn-default" onclick="updateFilm(#{films[number].id})">Update</div>
@@ -77,49 +77,46 @@
                         <f:param name="filmId" value="#{films[number].id}"/>
                     </h:commandLink>
                 </h:form>
-
-                <h:form method="post" id="update-film-form-#{films[number].id}" styleClass="hidden">
-                    <h:inputHidden id="update-film-id" type="text" value="#{updateFilmBean.filmId}">
-                        #{films[number].id}
-                    </h:inputHidden>
-                    <div class="form-group">
-                        <label for="update-film-title" class="control-label">Title:</label>
-                        <h:inputText type="text" class="form-control"
-                                     id="update-film-title" value="#{updateFilmBean.title}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="update-film-year" class="control-label">Year:</label>
-                        <h:inputText type="text" a:placeholder="yyyy" class="form-control"
-                                     id="update-film-year" value="#{updateFilmBean.year}#{films[number].year}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="update-film-duration" class="control-label">Duration:</label>
-                        <h:inputText type="text" a:placeholder="hh:mm" class="form-control"
-                                     id="update-film-duration" value="#{updateFilmBean.duration}#{films[number].formattedDuration}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="update-film-director-id" class="control-label">Director:</label>
-                        <h:selectOneMenu class="form-control" id="update-film-director-id"
-                                         value="#{updateFilmBean.directorId}#{films[number].director.id}">
-                            <f:selectItems value="#{updateFilmBean.directorsList}"/>
-                        </h:selectOneMenu>
-                        <h:message for="add-film-director-id"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="update-film-description" class="control-label">Description:</label>
-                        <h:inputTextarea class="form-control" id="update-film-description"
-                                         rows="5" value="#{updateFilmBean.description}#{films[number].description}"/>
-                    </div>
-                    <h:commandButton value="Save Film" styleClass="btn btn-primary btn-sm" action="#{updateFilmBean.submit()}"/>
-                    <div class="btn btn-default btn-sm" onclick="currentFlip.close();">Cancel</div>
-                    <div class="btn btn-default btn-sm" onclick="$('update-film-form-2').submit();">Submit</div>
-                </h:form>
-
             </div>
             <c:if test="#{(number != 0 and ((number + 1)%3 == 0)) or number == films.size() - 1}">
                 <h:outputText escape="false" value="&lt;/div&gt;"/>
             </c:if>
         </c:forEach>
+
+
+        <h:form method="post" id="update-film-form" styleClass="hidden">
+            <h:inputHidden id="update-film-id" type="text" value="#{updateFilmBean.filmId}"/>
+            <div class="form-group">
+                <label for="update-film-title" class="control-label">Title:</label>
+                <h:inputText type="text" class="form-control"
+                             id="update-film-title" value="#{updateFilmBean.title}"/>
+            </div>
+            <div class="form-group">
+                <label for="update-film-year" class="control-label">Year:</label>
+                <h:inputText type="text" a:placeholder="yyyy" class="form-control"
+                             id="update-film-year" value="#{updateFilmBean.year}"/>
+            </div>
+            <div class="form-group">
+                <label for="update-film-duration" class="control-label">Duration:</label>
+                <h:inputText type="text" a:placeholder="hh:mm" class="form-control"
+                             id="update-film-duration" value="#{updateFilmBean.duration}"/>
+            </div>
+            <div class="form-group">
+                <label for="update-film-director-id" class="control-label">Director:</label>
+                <h:selectOneMenu class="form-control" id="update-film-director-id"
+                                 value="#{updateFilmBean.directorId}">
+                    <f:selectItems value="#{directorsListBean.get()}"/>
+                </h:selectOneMenu>
+                <h:message for="add-film-director-id"/>
+            </div>
+            <div class="form-group">
+                <label for="update-film-description" class="control-label">Description:</label>
+                <h:inputTextarea class="form-control" id="update-film-description"
+                                 rows="5" value="#{updateFilmBean.description}"/>
+            </div>
+            <h:commandButton value="Save Film" styleClass="btn btn-primary btn-sm" action="#{updateFilmBean.submit()}"/>
+            <div class="btn btn-default btn-sm" onclick="currentFlip.close();">Cancel</div>
+        </h:form>
 
         <div class="modal fade" id="add-film-modal" role="dialog" aria-labelledby="add-film-modal-title">
             <div class="modal-dialog" role="document">
@@ -150,7 +147,7 @@
                                 <label for="add-film-director-id" class="control-label">Director:</label>
                                 <h:selectOneMenu class="form-control" id="add-film-director-id"
                                                  value="#{newFilmBean.directorId}">
-                                    <f:selectItems value="#{newFilmBean.directorsList}"/>
+                                    <f:selectItems value="#{directorsListBean.get()}"/>
                                 </h:selectOneMenu>
                                 <h:message for="add-film-director-id"/>
                             </div>
