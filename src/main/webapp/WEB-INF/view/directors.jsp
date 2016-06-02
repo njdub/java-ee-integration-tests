@@ -28,7 +28,8 @@
     <link href="static/css/director.css" rel="stylesheet">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>--%>
+    <script src="static/jquery/jquery-2.1.3.js"></script>
     <script src="static/datepicker/js/bootstrap-datepicker.js"></script>
     <script src="static/notification/js/bootstrap-notify.js"></script>
 </head>

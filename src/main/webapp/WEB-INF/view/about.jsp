@@ -20,7 +20,8 @@
 
     <!-- Custom styles for this template -->
     <link href="static/css/justified-nav.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>--%>
+    <script src="static/jquery/jquery-2.1.3.js"></script>
 </head>
 
 <body>
