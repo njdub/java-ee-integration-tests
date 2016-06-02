@@ -26,6 +26,7 @@ CREATE TABLE users (
   FOREIGN KEY (role_id) REFERENCES roles (id)
 );
 
+# SELECT r.title, 'Roles' FROM users u JOIN roles r ON  u.role_id = r.id WHERE u.username='ivan'
 
 INSERT INTO roles (id, title) VALUES (1, 'ADMIN');
 
