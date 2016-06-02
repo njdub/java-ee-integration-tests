@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>secured</web-resource-name>
+            <url-pattern>/</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+    </security-constraint>
+
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <!--<realm-name>film-studio</realm-name>-->
+        <form-login-config>
+            <form-login-page>/page/films.jsf</form-login-page>
+            <form-error-page>/page/about.jsf</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <welcome-file-list>
+        <welcome-file>/page/films.jsf</welcome-file>
+    </welcome-file-list>
+
+
+</web-app>

@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author Nazar Dub
  */
-@WebFilter(filterName = "SecurityFilter", urlPatterns = "/*")
+//@WebFilter(filterName = "SecurityFilter", urlPatterns = "/*")
 public class SecurityFilter implements Filter {
     public void destroy() {
         //NOP
