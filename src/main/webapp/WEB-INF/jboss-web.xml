@@ -5,7 +5,7 @@
       http://www.jboss.com/xml/ns/javaee
       http://www.jboss.org/j2ee/schema/jboss-web_5_1.xsd" version="8.0">
     <!--<context-root>/</context-root>-->
-    <security-domain>film-studio</security-domain>
+    <security-domain>security-test</security-domain>
     <!--<security-domain>other</security-domain>-->
 
 </jboss-web>
