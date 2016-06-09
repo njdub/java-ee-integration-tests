@@ -29,9 +29,9 @@
                 </ui:fragment>
 
                 <ui:fragment rendered="#{request.userPrincipal != null}">
-                    <div class="pull-left">
+                    <div class="pull-right">
                         <h:form>
-                            <h:commandLink styleClass="btn btn-warning btn-xs" action="#{logoutBean.logout()}"
+                            <h:commandLink styleClass="btn btn-primary btn-xs" action="#{logoutBean.logout()}"
                                            value="Sign out" >
                             </h:commandLink>
                         </h:form>
