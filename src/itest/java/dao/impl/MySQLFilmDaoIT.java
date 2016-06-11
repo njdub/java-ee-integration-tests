@@ -34,7 +34,6 @@ import static utils.DbUnitUtils.getDataSetByPath;
  *
  * @author Nazar Dub
  */
-
 @RunWith(Arquillian.class)
 public class MySQLFilmDaoIT {
 

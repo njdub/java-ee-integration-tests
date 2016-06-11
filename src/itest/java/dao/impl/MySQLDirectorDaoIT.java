@@ -30,7 +30,6 @@ import static utils.DbUnitUtils.getDataSetByPath;
  *
  * @author Nazar Dub
  */
-
 @RunWith(Arquillian.class)
 public class MySQLDirectorDaoIT {
 
@@ -69,7 +68,7 @@ public class MySQLDirectorDaoIT {
 
     @Test
     public void testSave() throws Exception {
-        Director director = new Director(15);
+        Director director = new Director();
         director.setFirstName("Ivan");
         director.setLastName("Ivanov");
         director.setBirthDate(LocalDate.of(1976, 3, 16));
