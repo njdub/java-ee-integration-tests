@@ -7,11 +7,12 @@
     <!--https://github.com/arquillian/arquillian-container-chameleon-->
     <container qualifier="chameleon" default="true">
         <configuration>
-            <property name="jbossHome">D:/dev/wildfly-8.2.0.Final</property>
+            <!--<property name="jbossHome">D:/dev/wildfly-8.2.0.Final</property>-->
             <property name="chameleonTarget">wildfly:8.2.0.Final:managed</property>
             <property name="serverConfig">standalone.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
-            <property name="managementPort">10290</property>
+            <!--${jboss.socket.binding.port-offset:100}-->
+            <property name="managementPort">10090</property>
         </configuration>
     </container>
     <!--<container qualifier="chameleon" default="true">-->

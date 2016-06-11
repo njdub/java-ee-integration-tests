@@ -64,10 +64,10 @@ task deleteLibFolder(type: Delete) {
 }
 
 flyway {
-    url = 'jdbc:mysql://localhost:3306/'
-    user = 'root'
-    password = 'root'
-    schemas = ['film_studio']
+    url = devDatabaseProperties.connectionString
+    user = devDatabaseProperties.user
+    password = devDatabaseProperties.password
+    schemas = [devDatabaseProperties.databaseName]
     locations = ['filesystem:src/main/resources/db/migration',
                  'filesystem:src/main/resources/db/data']
 }
@@ -118,10 +118,10 @@ build.mustRunAfter configureArquillianWar
 
 task prepareITestDatabase << {
     flyway {
-        url = 'jdbc:mysql://localhost:3306/'
-        user = 'root'
-        password = 'root'
-        schemas = ['film_studio_test']
+        url = testDatabaseProperties.connectionString
+        user = testDatabaseProperties.user
+        password = testDatabaseProperties.password
+        schemas = [testDatabaseProperties.databaseName]
         locations = ['filesystem:src/main/resources/db/migration']
     }
 }
